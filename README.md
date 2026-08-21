@@ -19,10 +19,11 @@ A simple **C#/.NET Discord bot** that integrates with [The One API](https://the-
 ## 📖 Usage
 
 ```text
-/character <character-name>    Displays information about the given character.
+/characters                     Displays information about all characters.
+/character <character-name>     Displays information about the given character.
 
-/quote                         Displays up to 10 quotes with pagination.
-/quote <character-name>        Displays up to 10 quotes from the given character with pagination.
+/quotes                         Displays up to 10 quotes with pagination.
+/quotes <character-name>        Displays up to 10 quotes from the given character with pagination.
 ```
 
 <!--

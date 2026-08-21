@@ -7,7 +7,7 @@ namespace Infra
         private static readonly Lazy<Cache> _instance = new(() => new Cache());
 
         private readonly List<Character> _characters = [];
-        private readonly Dictionary<string, Character> _charactersByName = [];
+        private readonly Dictionary<string, Character> _charactersById = [];
 
         private readonly List<Quote> _quotes = [];
 
@@ -19,12 +19,17 @@ namespace Infra
             foreach (var character in characters)
             {
                 _characters.Add(character);
-                _charactersByName[character.Name.Trim().ToLower()] = character;
+                _charactersById[character.Id] = character;
             }
+            _characters.Sort((c1, c2) => string.Compare(c1.Name, c2.Name, StringComparison.Ordinal));
 
             var quotes = requests.GetQuotesAsync().Result;
             foreach (var quote in quotes)
             {
+                var character = _charactersById.GetValueOrDefault(quote.CharacterId);
+                if (character is null) continue;
+
+                quote.CharacterName = character.Name;
                 _quotes.Add(quote);
             }
         }
@@ -32,7 +37,9 @@ namespace Infra
         private static Cache Instance => _instance.Value;
 
         public static IReadOnlyList<Character> Characters => Instance._characters;
-        public static Character? CharacterByName(string name) => Instance._charactersByName.GetValueOrDefault(name);
+        public static IReadOnlyList<Character> CharactersByName(string name) =>
+            [.. Instance._characters.Where(c => c.Name.Trim().ToLower().Contains(name))];
+
         public static IReadOnlyList<Quote> Quotes => Instance._quotes;
     }
 }

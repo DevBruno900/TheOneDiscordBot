@@ -16,9 +16,11 @@ namespace Core
         [JsonPropertyName("character")]
         public string CharacterId { get; set; } = null!;
 
+        public string CharacterName { get; set; } = null!;
+
         public override string ToString()
         {
-            return $"{Dialog}";
+            return $"{CharacterName}: {Dialog}";
         }
     }
 }

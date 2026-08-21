@@ -7,22 +7,28 @@ namespace App
     {
         public static IReadOnlyList<Character> GetCharacters => Cache.Characters;
 
-        public static Character? GetCharacterByName(string name)
+        public static IReadOnlyList<Character> GetCharactersByName(string name)
         {
             name = name.Trim().ToLower();
-            if (name == string.Empty) return null;
+            if (name == string.Empty) return [];
 
-            return Cache.CharacterByName(name);
+            return Cache.CharactersByName(name);
         }
 
         public static IReadOnlyList<Quote> GetQuotes => Cache.Quotes;
 
-        public static IReadOnlyList<Quote> GetQuotesByCharacterName(string characterName)
+        public static IReadOnlyList<Quote> GetQuotesByCharacter(string characterName)
         {
-            var character = GetCharacterByName(characterName);
-            if (character is null) return [];
+            var characters = GetCharactersByName(characterName);
+            if (characters.Count == 0) return [];
 
-            return [.. Cache.Quotes.Where(q => q.CharacterId == character.Id)];
+            var quotes = new List<Quote>();
+            foreach (var character in characters)
+            {
+                quotes.AddRange([.. Cache.Quotes.Where(q => q.CharacterId == character!.Id)]);
+            }
+
+            return quotes;
         }
     }
 }

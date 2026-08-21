@@ -7,7 +7,6 @@ namespace Infra
         private static readonly Lazy<Cache> _instance = new(() => new Cache());
 
         private readonly List<Character> _characters = [];
-        private readonly Dictionary<string, Character> _charactersById = [];
 
         private readonly List<Quote> _quotes = [];
 
@@ -16,17 +15,19 @@ namespace Infra
             var requests = new APIRequests();
 
             var characters = requests.GetCharactersAsync().Result;
+            var charactersById = new Dictionary<string, Character>();
+
             foreach (var character in characters)
             {
                 _characters.Add(character);
-                _charactersById[character.Id] = character;
+                charactersById[character.Id] = character;
             }
             _characters.Sort((c1, c2) => string.Compare(c1.Name, c2.Name, StringComparison.Ordinal));
 
             var quotes = requests.GetQuotesAsync().Result;
             foreach (var quote in quotes)
             {
-                var character = _charactersById.GetValueOrDefault(quote.CharacterId);
+                var character = charactersById.GetValueOrDefault(quote.CharacterId);
                 if (character is null) continue;
 
                 quote.CharacterName = character.Name;

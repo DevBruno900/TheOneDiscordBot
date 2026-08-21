@@ -32,7 +32,7 @@ namespace Infra
             return characters ?? [];
         }
 
-        public async Task<List<Quote>> GetQuotesAsync() //Task<List<Quote>> GetQuotesAsync()
+        public async Task<List<Quote>> GetQuotesAsync()
         {
             var response = await client.GetAsync($"{baseUrl}/quote");
             response.EnsureSuccessStatusCode();

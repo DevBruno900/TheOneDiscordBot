@@ -32,6 +32,7 @@ namespace Infra
                 quote.CharacterName = character.Name;
                 _quotes.Add(quote);
             }
+            _quotes.Sort((q1, q2) => string.Compare(q1.CharacterName, q2.CharacterName, StringComparison.Ordinal));
         }
 
         private static Cache Instance => _instance.Value;

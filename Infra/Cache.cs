@@ -7,7 +7,6 @@ namespace Infra
         private static readonly Lazy<Cache> _instance = new(() => new Cache());
 
         private readonly List<Character> _characters = [];
-
         private readonly List<Quote> _quotes = [];
 
         private Cache()
@@ -40,7 +39,6 @@ namespace Infra
         public static IReadOnlyList<Character> Characters => Instance._characters;
         public static IReadOnlyList<Character> CharactersByName(string name) =>
             [.. Instance._characters.Where(c => c.Name.Trim().ToLower().Contains(name))];
-
         public static IReadOnlyList<Quote> Quotes => Instance._quotes;
     }
 }

@@ -5,7 +5,7 @@ namespace App
 {
     internal sealed class Data
     {
-        public static IReadOnlyList<Character> GetCharacters => Cache.Characters;
+        public static IReadOnlyList<Character> GetCharacters() => Cache.Characters;
 
         public static IReadOnlyList<Character> GetCharactersByName(string name)
         {
@@ -15,7 +15,7 @@ namespace App
             return Cache.CharactersByName(name);
         }
 
-        public static IReadOnlyList<Quote> GetQuotes => Cache.Quotes;
+        public static IReadOnlyList<Quote> GetQuotes() => Cache.Quotes;
 
         public static IReadOnlyList<Quote> GetQuotesByCharacter(string characterName)
         {
